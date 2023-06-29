@@ -6,3 +6,9 @@
 // Під час завантаження сторінки перевіряй стан сховища, і якщо там є збережені дані, заповнюй ними поля форми. В іншому випадку поля повинні бути порожніми.
 // Під час сабміту форми очищуй сховище і поля форми, а також виводь у консоль об'єкт з полями email, message та їхніми поточними значеннями.
 // Зроби так, щоб сховище оновлювалось не частіше, ніж раз на 500 мілісекунд. Для цього додай до проекту і використовуй бібліотеку lodash.throttle.
+
+import throttle from 'lodash.throttle';
+
+const form = document.querySelector('.feedback-form');
+const input = document.querySelector('input[name="email"]');
+const textArea = document.querySelector('textarea[name="message"]');
