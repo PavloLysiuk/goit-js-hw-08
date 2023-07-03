@@ -16,9 +16,25 @@ const player = new Player(iframe);
 player.on('timeupdate', throttle(currentTime, 1000));
 
 function currentTime() {
-  player.getCurrentTime().then(function (seconds) {
-    localStorage.setItem('videoplayer-current-time', seconds);
-  });
+  try {
+    player.getCurrentTime().then(function (seconds) {
+      localStorage.setItem('videoplayer-current-time', seconds);
+    });
+  } catch (error) {
+    console.error(
+      '✅ This is fine, we handled parse error in try...catch',
+      error
+    );
+  }
 }
 
-window.onload = () => player.setCurrentTime(localStorage.getItem('videoplayer-current-time'));
+window.onload = () => {
+  try {
+    player.setCurrentTime(localStorage.getItem('videoplayer-current-time'));
+  } catch (error) {
+    console.error(
+      '✅ This is fine, we handled parse error in try...catch',
+      error
+    );
+  }
+};
