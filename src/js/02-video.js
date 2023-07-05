@@ -10,6 +10,7 @@
 import Player from '@vimeo/player';
 import throttle from 'lodash.throttle';
 
+const KEY_CURRENT_TIME = 'videoplayer-current-time';
 const iframe = document.querySelector('iframe');
 const player = new Player(iframe);
 
@@ -17,8 +18,8 @@ player.on('timeupdate', throttle(currentTime, 1000));
 
 function currentTime() {
   try {
-    player.getCurrentTime().then(function (seconds) {
-      localStorage.setItem('videoplayer-current-time', JSON.stringify(seconds));
+    player.getCurrentTime().then(function (time) {
+      localStorage.setItem(KEY_CURRENT_TIME, JSON.stringify(time));
     });
   } catch (error) {
     console.error(
@@ -30,7 +31,7 @@ function currentTime() {
 
 window.onload = () => {
   try {
-    player.setCurrentTime(JSON.parse(localStorage.getItem('videoplayer-current-time')));
+    player.setCurrentTime(JSON.parse(localStorage.getItem(KEY_CURRENT_TIME)));
   } catch (error) {
     console.error(
       '✅ This is fine, we handled parse error in try...catch',
