@@ -18,7 +18,7 @@ player.on('timeupdate', throttle(currentTime, 1000));
 function currentTime() {
   try {
     player.getCurrentTime().then(function (seconds) {
-      localStorage.setItem('videoplayer-current-time', seconds);
+      localStorage.setItem('videoplayer-current-time', JSON.stringify(seconds));
     });
   } catch (error) {
     console.error(
@@ -30,7 +30,7 @@ function currentTime() {
 
 window.onload = () => {
   try {
-    player.setCurrentTime(localStorage.getItem('videoplayer-current-time'));
+    player.setCurrentTime(JSON.parse(localStorage.getItem('videoplayer-current-time')));
   } catch (error) {
     console.error(
       '✅ This is fine, we handled parse error in try...catch',
