@@ -13,9 +13,7 @@ const selectors = {
   input: document.querySelector('input[name="email"]'),
   textarea: document.querySelector('textarea[name="message"]'),
 };
-const LS_KEYS = {
-  KEY_FEEDBACK_FORM_STATE: 'feedback-form-state',
-};
+const FEEDBACK_FORM_STATE = 'feedback-form-state';
 
 const formData = {
   email: '',
@@ -28,18 +26,18 @@ selectors.textarea.addEventListener('input', throttle(onMessageInput, 500));
 
 function onEmailInput(e) {
   formData.email = e.target.value;
-  saveDataToLS(LS_KEYS.KEY_FEEDBACK_FORM_STATE, formData);
+  saveDataToLS(FEEDBACK_FORM_STATE, formData);
 }
 
 function onMessageInput(e) {
   formData.message = e.target.value;
-  saveDataToLS(LS_KEYS.KEY_FEEDBACK_FORM_STATE, formData);
+  saveDataToLS(FEEDBACK_FORM_STATE, formData);
 }
 
 function onFormSubmit(e) {
   e.preventDefault();
-  console.log(getDataFromLS(LS_KEYS.KEY_FEEDBACK_FORM_STATE));
-  localStorage.removeItem(LS_KEYS.KEY_FEEDBACK_FORM_STATE);
+  console.log(getDataFromLS(FEEDBACK_FORM_STATE));
+  localStorage.removeItem(FEEDBACK_FORM_STATE);
   selectors.form.reset();
 }
 
@@ -55,7 +53,7 @@ function saveDataToLS(key, value) {
 }
 
 window.onload = function () {
-  let state = getDataFromLS(LS_KEYS.KEY_FEEDBACK_FORM_STATE);
+  let state = getDataFromLS(FEEDBACK_FORM_STATE);
   if (state) {
     selectors.input.value = state.email || '';
     selectors.textarea.value = state.message || '';
