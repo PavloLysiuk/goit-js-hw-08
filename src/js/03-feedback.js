@@ -21,16 +21,14 @@ const formData = {
 };
 
 selectors.form.addEventListener('submit', onFormSubmit);
-selectors.input.addEventListener('input', throttle(onEmailInput, 500));
-selectors.textarea.addEventListener('input', throttle(onMessageInput, 500));
+selectors.form.addEventListener('input', throttle(onFormInput, 500));
 
-function onEmailInput(e) {
-  formData.email = e.target.value;
-  saveDataToLS(FEEDBACK_FORM_STATE, formData);
-}
-
-function onMessageInput(e) {
-  formData.message = e.target.value;
+function onFormInput(e) {
+  if (e.target.name === 'email') {
+    formData.email = e.target.value;
+  } else if (e.target.name === 'message') {
+    formData.message = e.target.value;
+  }
   saveDataToLS(FEEDBACK_FORM_STATE, formData);
 }
 
@@ -41,32 +39,34 @@ function onFormSubmit(e) {
   selectors.form.reset();
 }
 
+function onLoad() {
+  const state = getDataFromLS(FEEDBACK_FORM_STATE);
+  selectors.input.value = state?.email || '';
+  selectors.textarea.value = state?.message || '';
+}
+onLoad();
+
 function saveDataToLS(key, value) {
   try {
     const dataToString = JSON.stringify(value);
     localStorage.setItem(key, dataToString);
   } catch (error) {
-    console.error(
-      '✅ This is fine, we handled parse error in try...catch', error.message
-    );
+    onLocalStorageError(error);
   }
 }
-
-window.onload = function () {
-  let state = getDataFromLS(FEEDBACK_FORM_STATE);
-  if (state) {
-    selectors.input.value = state.email || '';
-    selectors.textarea.value = state.message || '';
-  }
-};
 
 function getDataFromLS(key) {
   try {
     const dataFromString = localStorage.getItem(key);
     return JSON.parse(dataFromString ?? '{}');
   } catch (error) {
-    console.error(
-      '✅ This is fine, we handled parse error in try...catch', error.message
-    );
+    onLocalStorageError(error);
   }
+}
+
+function onLocalStorageError(error) {
+  console.error(
+    '✅ This is fine, we handled Local Storage error:',
+    error.message
+  );
 }
