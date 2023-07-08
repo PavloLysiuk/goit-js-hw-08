@@ -31,6 +31,9 @@ function currentTime() {
 
 window.onload = () => {
   try {
+    if (!localStorage) {
+      return;
+    }
     player.setCurrentTime(JSON.parse(localStorage.getItem(KEY_CURRENT_TIME)));
   } catch (error) {
     console.error(
