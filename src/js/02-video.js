@@ -29,17 +29,18 @@ function currentTime() {
   }
 }
 
-window.onload = () => {
-  try {
-    if (!localStorage.length) {
-      return;
-    }
-    player.setCurrentTime(JSON.parse(localStorage.getItem(KEY_CURRENT_TIME)));
-  } catch (error) {
-    console.error(
-      '✅ This is fine, we handled parse error in try...catch',
-      error
-    );
+try {
+  if (!localStorage.length) {
+    return;
   }
-};
-console.log(localStorage);
+  player.setCurrentTime(JSON.parse(localStorage.getItem(KEY_CURRENT_TIME)));
+} catch (error) {
+  console.error(
+    '✅ This is fine, we handled parse error in try...catch',
+    error
+  );
+}
+
+// window.onload = () => {
+
+// };
