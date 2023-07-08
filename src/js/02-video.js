@@ -40,7 +40,3 @@ try {
     error
   );
 }
-
-// window.onload = () => {
-
-// };
